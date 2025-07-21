@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICMS Failure Data Entry</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #6dd5ed, #2193b0); /* Vibrant blue gradient */
+            color: #fff;
+            margin: 0;
+            padding: 15px; /* Increased padding slightly for more space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.95em; /* Slightly larger base font size for the body */
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Slightly larger shadow */
+            width: 98%; /* Increased width for more horizontal space */
+            max-width: 1500px; /* Increased max-width */
+            margin-bottom: 20px; /* Increased margin */
+            overflow-x: auto;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #e0f7fa;
+            margin-bottom: 15px; /* Increased margin */
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); /* Slightly larger text shadow */
+            font-size: 1.8em; /* Larger heading */
+        }
+
+        /* --- UPDATED FORM GRID STYLE for 2 lines --- */
+        .form-grid {
+            display: grid; /* Use grid for 2 columns */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Auto-fit to 250px min, allowing flexibility */
+            gap: 15px; /* Larger gap */
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 0; /* No specific margin needed with grid gap */
+        }
+        /* --- END UPDATED FORM GRID STYLE --- */
+
+        label {
+            display: block;
+            margin-bottom: 5px; /* More margin */
+            font-weight: bold;
+            color: #bbdefb;
+            font-size: 0.9em; /* Slightly larger label font size */
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px; /* Increased padding for input fields */
+            border: 1px solid #4fc3f7;
+            border-radius: 4px; /* Slightly larger border-radius */
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 0.9em; /* Slightly larger input font size */
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            height: 38px; /* Fixed height for consistent alignment */
+        }
+
+        textarea {
+            height: 60px; /* Adjusted height for textareas */
+            padding: 8px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: #b3e5fc;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #81d4fa;
+            background-color: rgba(255, 255, 255, 0.25);
+            outline: none;
+            box-shadow: 0 0 8px rgba(129, 212, 250, 0.6); /* Slightly larger shadow */
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        select option {
+            background-color: #0d47a1;
+            color: #fff;
+        }
+
+        button {
+            background-color: #00bcd4;
+            color: white;
+            padding: 10px 20px; /* Increased padding for buttons */
+            border: none;
+            border-radius: 5px; /* Slightly larger border-radius */
+            cursor: pointer;
+            font-size: 1em; /* Slightly larger button font size */
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 15px; /* Increased margin */
+            display: block;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #00acc1;
+            transform: translateY(-2px); /* Slightly larger transform */
+        }
+
+        /* --- UPDATED SEARCH SECTION STYLE for 1 line --- */
+        .search-section {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            width: 98%;
+            max-width: 1500px;
+            margin-bottom: 20px;
+            display: flex; /* Use flexbox */
+            flex-wrap: nowrap; /* Keep items on a single line */
+            gap: 15px; /* Larger gap */
+            align-items: flex-end; /* Align items to the bottom */
+            justify-content: center; /* Center content horizontally */
+            overflow-x: auto; /* Enable horizontal scroll if needed */
+        }
+
+        .search-section h2 {
+            white-space: nowrap; /* Prevent heading from wrapping */
+            margin-right: 20px; /* Add more space after heading */
+            flex-shrink: 0; /* Prevent it from shrinking */
+            font-size: 1.4em; /* Larger heading for search section */
+            margin-bottom: 0; /* Remove bottom margin */
+        }
+
+        .search-section .form-group {
+            margin-bottom: 0;
+            min-width: 180px; /* Adjusted min-width for search inputs */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .search-section button {
+            width: auto; /* Allow buttons to size based on content */
+            margin-top: 0; /* Remove top margin for better alignment */
+            padding: 10px 18px; /* Adjusted button padding */
+            font-size: 0.95em; /* Slightly larger button font size */
+        }
+        /* --- END UPDATED SEARCH SECTION STYLE --- */
+
+
+        .search-results-section {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            width: 98%;
+            max-width: 1500px;
+            margin-bottom: 20px; /* Add margin to separate from other sections */
+        }
+
+        #dataDisplayTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px; /* Increased margin */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.9em; /* Slightly larger table font size */
+        }
+
+        #dataDisplayTable th,
+        #dataDisplayTable td {
+            padding: 8px 10px; /* Increased padding for table cells */
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Slightly stronger border */
+            color: #e0f7fa;
+            vertical-align: top; /* Ensure content aligns at the top */
+        }
+
+        #dataDisplayTable th {
+            background-color: rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+            color: #bbdefb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        #dataDisplayTable tr:hover {
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly stronger hover effect */
+        }
+
+        .no-data {
+            text-align: center;
+            color: #ffccbc;
+            padding: 15px;
+            font-size: 1em;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3); /* Slightly larger spinner */
+            border-top: 3px solid #fff;
+            width: 20px; /* Slightly larger spinner */
+            height: 20px; /* Slightly larger spinner */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* New styles for PDF upload and edit */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+            align-items: center;
+        }
+        .action-buttons button {
+            width: auto; /* Buttons size based on content */
+            padding: 5px 10px;
+            font-size: 0.8em;
+            margin-top: 0; /* Override default button margin */
+        }
+        .pdf-input-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+            flex-wrap: wrap;
+        }
+        .pdf-input-container input[type="file"] {
+            flex-grow: 1; /* Allow file input to take available space */
+            min-width: 120px; /* Minimum width for file input */
+            padding: 4px; /* Adjust padding for file input */
+            height: auto; /* Allow height to adjust */
+        }
+        .pdf-input-container button {
+            flex-shrink: 0; /* Prevent button from shrinking */
+            width: auto;
+            padding: 5px 8px; /* Smaller padding for upload button */
+            font-size: 0.75em;
+        }
+        .pdf-link {
+            word-break: break-all; /* Break long URLs */
+            font-size: 0.8em;
+            color: #bbdefb;
+        }
+        .pdf-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal / Pop-up for Edit Form */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 100; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+        }
+
+        .modal-content {
+            background-color: rgba(0, 0, 0, 0.85); /* Darker, slightly transparent background */
+            margin: 5% auto; /* 5% from the top and centered */
+            padding: 30px; /* More padding */
+            border: 1px solid #888;
+            border-radius: 10px; /* More rounded corners */
+            width: 90%; /* Max width for content */
+            max-width: 800px; /* Increased max-width for edit form */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Stronger shadow */
+            position: relative;
+            max-height: 90vh; /* Max height to prevent overflow */
+            overflow-y: auto; /* Enable scrolling within modal if content is long */
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr; /* On very small screens, revert to single column for form */
+            }
+            .search-section {
+                flex-wrap: wrap; /* Allow search section to wrap on small screens */
+                justify-content: flex-start;
+            }
+            .search-section h2 {
+                width: 100%; /* Full width for heading on small screens */
+                text-align: center;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .search-section button {
+                width: 100%; /* Full width buttons on small screens */
+            }
+            .modal-content {
+                width: 95%; /* Narrower modal on small screens */
+                padding: 15px;
+            }
+            .action-buttons button {
+                width: 100%; /* Full width buttons in actions column on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ICMS Failure Data Entry Form</h1>
+        <form id="icmsForm">
+            <div class="form-grid">
+                <input type="hidden" id="uniqueId" name="Unique ID">
+                <input type="hidden" id="rowIndex" name="rowIndex">
+
+                <div class="form-group">
+                    <label for="srNo">Sr. No.</label>
+                    <input type="number" id="srNo" name="Sr. No." required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="Date" required>
+                </div>
+                <div class="form-group">
+                    <label for="icmsFailureId">ICMS Failure Id</label>
+                    <input type="text" id="icmsFailureId" name="ICMS Failure Id">
+                </div>
+                <div class="form-group">
+                    <label for="trainNo">Train No.</label>
+                    <input type="text" id="trainNo" name="Train No.">
+                </div>
+                <div class="form-group">
+                    <label for="locoNo">Loco No.</label>
+                    <input type="text" id="locoNo" name="Loco No.">
+                </div>
+                <div class="form-group">
+                    <label for="mainSection">Main Section</label>
+                    <select id="mainSection" name="Main Section" required>
+                        <option value="">Select Main Section</option>
+                        <option value="NGP-WR">NGP-WR</option>
+                        <option value="NGP-AMF">NGP-AMF</option>
+                        <option value="WR-BD">WR-BD</option>
+                        <option value="WR-BPQ">WR-BPQ</option>
+                        <option value="AMF-ET">AMF-ET</option>
+                        <option value="AMF-CWA">AMF-CWA</option>
+                        <option value="NRKR-CNDB">NRKR-CNDB</option>
+                        <option value="BTBR-URR">BTBR-URR</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="blockSection">Block Section</label>
+                    <input type="text" id="blockSection" name="Block Section">
+                </div>
+                <div class="form-group">
+                    <label for="kms">KMS</label>
+                    <input type="text" id="kms" name="KMS">
+                </div>
+                <div class="form-group">
+                    <label for="gradient">Gradient Up / Dn</label>
+                    <select id="gradient" name="Gradient Up / Dn">
+                        <option value="">Select Gradient</option>
+                        <option value="Straight">Straight</option>
+                        <option value="Up/Rising">Up/Rising</option>
+                        <option value="Dn/Falling">Dn/Falling</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="signalAspect">Signal Aspect</label>
+                    <select id="signalAspect" name="Signal Aspect">
+                        <option value="">Select Signal Aspect</option>
+                        <option value="Distant Yellow">Distant Yellow</option>
+                        <option value="Through">Through</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="locoPilotName">Loco Pilot Name</label>
+                    <input type="text" id="locoPilotName" name="Loco Pilot Name">
+                </div>
+                <div class="form-group">
+                    <label for="locoPilotCategory">Loco Pilot Category</label>
+                    <input type="text" id="locoPilotCategory" name="Loco Pilot Category">
+                </div>
+                <div class="form-group">
+                    <label for="nominatedLI">Nominated LI</label>
+                    <input type="text" id="nominatedLI" name="Nominated LI">
+                </div>
+                <div class="form-group">
+                    <label for="bpcNo">BPC No.</label>
+                    <input type="text" id="bpcNo" name="BPC No.">
+                </div>
+                <div class="form-group">
+                    <label for="bpcStation">BPC Station</label>
+                    <input type="text" id="bpcStation" name="BPC Station">
+                </div>
+                <div class="form-group">
+                    <label for="bpcRailway">BPC Railway</label>
+                    <input type="text" id="bpcRailway" name="BPC Railway">
+                </div>
+                <div class="form-group">
+                    <label for="examType">Exam. Type</label>
+                    <select id="examType" name="Exam. Type" required>
+                        <option value="">Select Exam Type</option>
+                        <option value="CC">CC</option>
+                        <option value="Premium">Premium</option>
+                        <option value="E to E">E to E</option>
+                        <option value="GDR">GDR</option>
+                        <option value="Departmental">Departmental</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bpcDate">BPC Date</label>
+                    <input type="date" id="bpcDate" name="BPC Date">
+                </div>
+                <div class="form-group">
+                    <label for="wagonOwner">Wagon Owner</label>
+                    <input type="text" id="wagonOwner" name="Wagon Owner">
+                </div>
+                <div class="form-group">
+                    <label for="wagonNo">Wagon No.</label>
+                    <input type="text" id="wagonNo" name="Wagon No.">
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" name="Type" required>
+                        <option value="">Select Type</option>
+                        <option value="BOXN">BOXN</option>
+                        <option value="BCN">BCN</option>
+                        <option value="BLC">BLC</option>
+                        <option value="BRN">BRN</option>
+                        <option value="BTPN">BTPN</option>
+                        <option value="BOBYN">BOBYN</option>
+                        <option value="BOBRN">BOBRN</option>
+                        <option value="Well wagon">Well wagon</option>
+                        <option value="Brake van">Brake van</option>
+                        <option value="BOST">BOST</option>
+                        <option value="NMG/VPH">NMG/VPH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subType">Sub Type</label>
+                    <select id="subType" name="Sub Type">
+                        <option value="">Select Sub Type</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="loadedEmpty">Loaded / Empty</label>
+                    <select id="loadedEmpty" name="Loaded / Empty">
+                        <option value="">Select Status</option>
+                        <option value="Loaded">Loaded</option>
+                        <option value="Empty">Empty</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pohWorkshop">POH Workshop</label>
+                    <input type="text" id="pohWorkshop" name="POH workshop">
+                </div>
+                <div class="form-group">
+                    <label for="pohDate">POH Date</label>
+                    <input type="date" id="pohDate" name="POH date">
+                </div>
+                <div class="form-group">
+                    <label for="monthsAfterPOH">Months after POH</label>
+                    <input type="number" id="monthsAfterPOH" name="Months after POH">
+                </div>
+                <div class="form-group">
+                    <label for="rohDepot">ROH Depot</label>
+                    <input type="text" id="rohDepot" name="ROH depot">
+                </div>
+                <div class="form-group">
+                    <label for="rohDate">ROH Date</label>
+                    <input type="date" id="rohDate" name="ROH date">
+                </div>
+                <div class="form-group">
+                    <label for="monthsAfterROH">Months after ROH</label>
+                    <input type="number" id="monthsAfterROH" name="Months after ROH">
+                </div>
+                <div class="form-group">
+                    <label for="rDate">R-date</label>
+                    <input type="date" id="rDate" name="R-date">
+                </div>
+                <div class="form-group">
+                    <label for="partBrokenFailed">Part broken / Failed</label>
+                    <input type="text" id="partBrokenFailed" name="Part broken / Failed">
+                </div>
+                <div class="form-group">
+                    <label for="makeOfPart">Make of broken / Failed part</label>
+                    <input type="text" id="makeOfPart" name="Make of broken / Failed part">
+                </div>
+                <div class="form-group">
+                    <label for="mfgDateOfPart">Mfg. date of broken / Failed part</label>
+                    <input type="date" id="mfgDateOfPart" name="Mfg. date of broken / Failed part">
+                </div>
+                <div class="form-group">
+                    <label for="monthsAfterMfg">Months after Mfg.</label>
+                    <input type="number" id="monthsAfterMfg" name="Months after Mfg.">
+                </div>
+                <div class="form-group">
+                    <label for="cnmPanelReport">Finding of C&M panel report</label>
+                    <textarea id="cnmPanelReport" name="Finding of C&M panel report" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="defectBrief">Defect brief</label>
+                    <textarea id="defectBrief" name="Defect brief" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="defectCategory">Defect Category</label>
+                    <select id="defectCategory" name="Defect category">
+                        <option value="">Select Defect Category</option>
+                        <option value="TPG">TPG</option>
+                        <option value="TUG">TUG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reasonForUncoupling">Reason for uncoupling</label>
+                    <select id="reasonForUncoupling" name="Reason for uncoupling">
+                        <option value="">Select Reason</option>
+                        <option value="Knuckle broken">Knuckle broken</option>
+                        <option value="Lock piece worn out">Lock piece worn out</option>
+                        <option value="Yoke support pin broken">Yoke support pin broken</option>
+                        <option value="Yoke support pin fallen">Yoke support pin fallen</option>
+                        <option value="Anti creep worn out">Anti creep worn out</option>
+                        <option value="Knuckle pin missing">Knuckle pin missing</mption>
+                        <option value="ARL missing/worn out">ARL missing/worn out</option>
+                        <option value="Operating handle broken/bent">Operating handle broken/bent</option>
+                        <option value="Bearing piece worn out/missing">Bearing piece worn out/missing</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityExamRohPoh">Responsibility Exam / ROH / POH</label>
+                    <select id="responsibilityExamRohPoh" name="Responsibility Exam / ROH / POH">
+                        <option value="">Select Responsibility</option>
+                        <option value="ROH">ROH</option>
+                        <option value="POH">POH</option>
+                        <option value="Last examination point">Last examination point</option>
+                        <option value="GDR">GDR</option>
+                        <option value="Pointsman">Pointsman</option>
+                        <option value="TRO">TRO</option>
+                        <option value="Unknown">Unknown</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityStation">Responsibility station</label>
+                    <input type="text" id="responsibilityStation" name="Responsibility station">
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityDivision">Responsibility division</label>
+                    <input type="text" id="responsibilityDivision" name="Responsibility division">
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityRailway">Responsibility Railway</label>
+                    <input type="text" id="responsibilityRailway" name="Responsibility Railway">
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityDepartment">Responsibility Department</label>
+                    <select id="responsibilityDepartment" name="Responsibility Department">
+                        <option value="">Select Department</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Operating">Operating</option>
+                        <option value="Operating + TRO">Operating + TRO</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="TRO">TRO</option>
+                        <option value="Other">Other</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="icmsRemark">ICMS Remark</label>
+                    <textarea id="icmsRemark" name="ICMS Remark" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="observation">Observation</label>
+                    <textarea id="observation" name="Observation" rows="2"></textarea>
+                </div>
+                <input type="hidden" id="pdfLink" name="PDF Link">
+            </div>
+            <button type="submit" id="submitButton">Submit Data</button>
+            <div class="spinner" id="formSpinner"></div>
+        </form>
+    </div>
+
+    <div class="search-section">
+        <h2>Search Records</h2>
+        <div class="form-group">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+        </div>
+        <div class="form-group">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+        </div>
+        <button onclick="searchData()">Search</button>
+        <button onclick="downloadCSV()">Download CSV</button>
+        <div class="spinner" id="searchSpinner"></div>
+    </div>
+
+    <div class="search-results-section">
+        <h2>Submitted Data (Latest First)</h2>
+        <div id="dataDisplayArea">
+            <p class="no-data">No data to display yet. Submit a record or search for existing ones.</p>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Edit Record</h2>
+            <form id="editForm">
+                <div class="form-grid">
+                    <input type="hidden" id="editUniqueId" name="Unique ID">
+                    <input type="hidden" id="editRowIndex" name="rowIndex">
+
+                    <div class="form-group">
+                        <label for="editSrNo">Sr. No.</label>
+                        <input type="number" id="editSrNo" name="Sr. No.">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDate">Date</label>
+                        <input type="date" id="editDate" name="Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="editIcmsFailureId">ICMS Failure Id</label>
+                        <input type="text" id="editIcmsFailureId" name="ICMS Failure Id">
+                    </div>
+                    <div class="form-group">
+                        <label for="editTrainNo">Train No.</label>
+                        <input type="text" id="editTrainNo" name="Train No.">
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocoNo">Loco No.</label>
+                        <input type="text" id="editLocoNo" name="Loco No.">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMainSection">Main Section</label>
+                        <select id="editMainSection" name="Main Section">
+                            <option value="">Select Main Section</option>
+                            <option value="NGP-WR">NGP-WR</option>
+                            <option value="NGP-AMF">NGP-AMF</option>
+                            <option value="WR-BD">WR-BD</option>
+                            <option value="WR-BPQ">WR-BPQ</option>
+                            <option value="AMF-ET">AMF-ET</option>
+                            <option value="AMF-CWA">AMF-CWA</option>
+                            <option value="NRKR-CNDB">NRKR-CNDB</option>
+                            <option value="BTBR-URR">BTBR-URR</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBlockSection">Block Section</label>
+                        <input type="text" id="editBlockSection" name="Block Section">
+                    </div>
+                    <div class="form-group">
+                        <label for="editKms">KMS</label>
+                        <input type="text" id="editKms" name="KMS">
+                    </div>
+                    <div class="form-group">
+                        <label for="editGradient">Gradient Up / Dn</label>
+                        <select id="editGradient" name="Gradient Up / Dn">
+                            <option value="">Select Gradient</option>
+                            <option value="Straight">Straight</option>
+                            <option value="Up/Rising">Up/Rising</option>
+                            <option value="Dn/Falling">Dn/Falling</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSignalAspect">Signal Aspect</label>
+                        <select id="editSignalAspect" name="Signal Aspect">
+                            <option value="">Select Signal Aspect</option>
+                            <option value="Distant Yellow">Distant Yellow</option>
+                            <option value="Through">Through</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocoPilotName">Loco Pilot Name</label>
+                        <input type="text" id="editLocoPilotName" name="Loco Pilot Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocoPilotCategory">Loco Pilot Category</label>
+                        <input type="text" id="editLocoPilotCategory" name="Loco Pilot Category">
+                    </div>
+                    <div class="form-group">
+                        <label for="editNominatedLI">Nominated LI</label>
+                        <input type="text" id="editNominatedLI" name="Nominated LI">
+                    </div>
+                    <div class="form-group">
+                        <label for="editBpcNo">BPC No.</label>
+                        <input type="text" id="editBpcNo" name="BPC No.">
+                    </div>
+                    <div class="form-group">
+                        <label for="editBpcStation">BPC Station</label>
+                        <input type="text" id="editBpcStation" name="BPC Station">
+                    </div>
+                    <div class="form-group">
+                        <label for="editBpcRailway">BPC Railway</label>
+                        <input type="text" id="editBpcRailway" name="BPC Railway">
+                    </div>
+                    <div class="form-group">
+                        <label for="editExamType">Exam. Type</label>
+                        <select id="editExamType" name="Exam. Type">
+                            <option value="">Select Exam Type</option>
+                            <option value="CC">CC</option>
+                            <option value="Premium">Premium</option>
+                            <option value="E to E">E to E</option>
+                            <option value="GDR">GDR</option>
+                            <option value="Departmental">Departmental</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBpcDate">BPC Date</label>
+                        <input type="date" id="editBpcDate" name="BPC Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="editWagonOwner">Wagon Owner</label>
+                        <input type="text" id="editWagonOwner" name="Wagon Owner">
+                    </div>
+                    <div class="form-group">
+                        <label for="editWagonNo">Wagon No.</label>
+                        <input type="text" id="editWagonNo" name="Wagon No.">
+                    </div>
+                    <div class="form-group">
+                        <label for="editType">Type</label>
+                        <select id="editType" name="Type">
+                            <option value="">Select Type</option>
+                            <option value="BOXN">BOXN</option>
+                            <option value="BCN">BCN</option>
+                            <option value="BLC">BLC</option>
+                            <option value="BRN">BRN</option>
+                            <option value="BTPN">BTPN</option>
+                            <option value="BOBYN">BOBYN</option>
+                            <option value="BOBRN">BOBRN</option>
+                            <option value="Well wagon">Well wagon</option>
+                            <option value="Brake van">Brake van</option>
+                            <option value="BOST">BOST</option>
+                            <option value="NMG/VPH">NMG/VPH</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSubType">Sub Type</label>
+                        <select id="editSubType" name="Sub Type">
+                            <option value="">Select Sub Type</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLoadedEmpty">Loaded / Empty</label>
+                        <select id="editLoadedEmpty" name="Loaded / Empty">
+                            <option value="">Select Status</option>
+                            <option value="Loaded">Loaded</option>
+                            <option value="Empty">Empty</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPohWorkshop">POH Workshop</label>
+                        <input type="text" id="editPohWorkshop" name="POH workshop">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPohDate">POH Date</label>
+                        <input type="date" id="editPohDate" name="POH date">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMonthsAfterPOH">Months after POH</label>
+                        <input type="number" id="editMonthsAfterPOH" name="Months after POH">
+                    </div>
+                    <div class="form-group">
+                        <label for="editRohDepot">ROH Depot</label>
+                        <input type="text" id="editRohDepot" name="ROH depot">
+                    </div>
+                    <div class="form-group">
+                        <label for="editRohDate">ROH Date</label>
+                        <input type="date" id="editRohDate" name="ROH date">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMonthsAfterROH">Months after ROH</label>
+                        <input type="number" id="editMonthsAfterROH" name="Months after ROH">
+                    </div>
+                    <div class="form-group">
+                        <label for="editRDate">R-date</label>
+                        <input type="date" id="editRDate" name="R-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPartBrokenFailed">Part broken / Failed</label>
+                        <input type="text" id="editPartBrokenFailed" name="Part broken / Failed">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMakeOfPart">Make of broken / Failed part</label>
+                        <input type="text" id="editMakeOfPart" name="Make of broken / Failed part">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMfgDateOfPart">Mfg. date of broken / Failed part</label>
+                        <input type="date" id="editMfgDateOfPart" name="Mfg. date of broken / Failed part">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMonthsAfterMfg">Months after Mfg.</label>
+                        <input type="number" id="editMonthsAfterMfg" name="Months after Mfg.">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCnmPanelReport">Finding of C&M panel report</label>
+                        <textarea id="editCnmPanelReport" name="Finding of C&M panel report" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDefectBrief">Defect brief</label>
+                        <textarea id="editDefectBrief" name="Defect brief" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDefectCategory">Defect Category</label>
+                        <select id="editDefectCategory" name="Defect category">
+                            <option value="">Select Defect Category</option>
+                            <option value="TPG">TPG</option>
+                            <option value="TUG">TUG</mption>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editReasonForUncoupling">Reason for uncoupling</label>
+                        <select id="editReasonForUncoupling" name="Reason for uncoupling">
+                            <option value="">Select Reason</option>
+                            <option value="Knuckle broken">Knuckle broken</option>
+                            <option value="Lock piece worn out">Lock piece worn out</option>
+                            <option value="Yoke support pin broken">Yoke support pin broken</option>
+                            <option value="Yoke support pin fallen">Yoke support pin fallen</option>
+                            <option value="Anti creep worn out">Anti creep worn out</option>
+                            <option value="Knuckle pin missing">Knuckle pin missing</option>
+                            <option value="ARL missing/worn out">ARL missing/worn out</option>
+                            <option value="Operating handle broken/bent">Operating handle broken/bent</option>
+                            <option value="Bearing piece worn out/missing">Bearing piece worn out/missing</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editResponsibilityExamRohPoh">Responsibility Exam / ROH / POH</label>
+                        <select id="editResponsibilityExamRohPoh" name="Responsibility Exam / ROH / POH">
+                            <option value="">Select Responsibility</option>
+                            <option value="ROH">ROH</option>
+                            <option value="POH">POH</option>
+                            <option value="Last examination point">Last examination point</option>
+                            <option value="GDR">GDR</option>
+                            <option value="Pointsman">Pointsman</option>
+                            <option value="TRO">TRO</option>
+                            <option value="Unknown">Unknown</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editResponsibilityStation">Responsibility station</label>
+                        <input type="text" id="editResponsibilityStation" name="Responsibility station">
+                    </div>
+                    <div class="form-group">
+                        <label for="editResponsibilityDivision">Responsibility division</label>
+                        <input type="text" id="editResponsibilityDivision" name="Responsibility division">
+                    </div>
+                    <div class="form-group">
+                        <label for="editResponsibilityRailway">Responsibility Railway</label>
+                        <input type="text" id="editResponsibilityRailway" name="Responsibility Railway">
+                    </div>
+                    <div class="form-group">
+                        <label for="editResponsibilityDepartment">Responsibility Department</label>
+                        <select id="editResponsibilityDepartment" name="Responsibility Department">
+                            <option value="">Select Department</option>
+                            <option value="Mechanical">Mechanical</option>
+                            <option value="Operating">Operating</option>
+                            <option value="Operating + TRO">Operating + TRO</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="TRO">TRO</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIcmsRemark">ICMS Remark</label>
+                        <textarea id="editIcmsRemark" name="ICMS Remark" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editObservation">Observation</label>
+                        <textarea id="editObservation" name="Observation" rows="2"></textarea>
+                    </div>
+                    <input type="hidden" id="editPdfLink" name="PDF Link">
+                </div>
+                <button type="submit">Save Changes</button>
+                <div class="spinner" id="editFormSpinner"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('icmsForm');
+        const typeSelect = document.getElementById('type');
+        const subTypeSelect = document.getElementById('subType');
+        const formSpinner = document.getElementById('formSpinner');
+        const searchSpinner = document.getElementById('searchSpinner');
+        const dataDisplayArea = document.getElementById('dataDisplayArea');
+        const submitButton = document.getElementById('submitButton');
+
+        // Edit Modal elements
+        const editModal = document.getElementById('editModal');
+        const closeButton = document.querySelector('.close-button');
+        const editForm = document.getElementById('editForm');
+        const editFormSpinner = document.getElementById('editFormSpinner');
+        const editTypeSelect = document.getElementById('editType');
+        const editSubTypeSelect = document.getElementById('editSubType');
+
+        // IMPORTANT: Replace with your deployed Google Apps Script Web App URL
+        const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKZUWsltqEP0pgo-rTb0YIxCa0gWUDfkPIsYbKSPgyeKTniMxlb-6O60AVnnhffPuAGw/exec'; // <--- इसे अपनी असली URL से बदलें
+        
+        const subTypeOptions = {
+            "BOXN": ["BOXN", "BOXNHA", "BOXNHS", "BOXNLW", "BOXNAL", "BOXNHL", "BOXNS"],
+            "BCN": ["BCNA", "BCNAHS", "BCCNR", "BCNHL"],
+            "BLC": ["BLCA", "BLCB", "BLCAM", "BLCBM", "BLCSA", "BLCSB", "BLLA", "BLLB"],
+            "BRN": ["BRNA", "BRNAHS", "BFNS", "BOMN", "BRSTH", "BFAT", "BFU", "BRHNEHS"],
+            "BTPN": ["BTPN", "BTPNHS", "BTPGLN", "BTALN", "BTCS", "BTAP", "BTFLN"],
+            "BOBYN": ["BOBYN", "BOBYNHS", "BOBRN", "BOBRNHS", "BOBSN"],
+            "BOBRN": ["BOBYN", "BOBYNHS", "BOBRN", "BOBRNHS", "BOBSN"],
+            "Well wagon": ["BWTB", "MBWT", "DBKM", "MBWZ"],
+            "Brake van": ["BVZI", "BVZC", "BVCM"],
+            "BOST": ["BOST", "BOSTHS"],
+            "NMG/VPH": ["NMG/VPH"]
+        };
+
+        // This map is crucial for matching form field IDs to Google Sheet column headers
+        // Ensure every form field with an 'id' has an entry here,
+        // mapping its ID to the exact 'name' attribute which matches your Google Sheet header.
+        const fieldMap = {
+            'srNo': 'Sr. No.',
+            'date': 'Date',
+            'icmsFailureId': 'ICMS Failure Id',
+            'trainNo': 'Train No.',
+            'locoNo': 'Loco No.',
+            'mainSection': 'Main Section',
+            'blockSection': 'Block Section',
+            'kms': 'KMS',
+            'gradient': 'Gradient Up / Dn',
+            'signalAspect': 'Signal Aspect',
+            'locoPilotName': 'Loco Pilot Name',
+            'locoPilotCategory': 'Loco Pilot Category',
+            'nominatedLI': 'Nominated LI',
+            'bpcNo': 'BPC No.',
+            'bpcStation': 'BPC Station',
+            'bpcRailway': 'BPC Railway',
+            'examType': 'Exam. Type',
+            'bpcDate': 'BPC Date',
+            'wagonOwner': 'Wagon Owner',
+            'wagonNo': 'Wagon No.',
+            'type': 'Type',
+            'subType': 'Sub Type',
+            'loadedEmpty': 'Loaded / Empty',
+            'pohWorkshop': 'POH workshop',
+            'pohDate': 'POH date',
+            'monthsAfterPOH': 'Months after POH',
+            'rohDepot': 'ROH depot',
+            'rohDate': 'ROH date',
+            'monthsAfterROH': 'Months after ROH',
+            'rDate': 'R-date',
+            'partBrokenFailed': 'Part broken / Failed',
+            'makeOfPart': 'Make of broken / Failed part',
+            'mfgDateOfPart': 'Mfg. date of broken / Failed part',
+            'monthsAfterMfg': 'Months after Mfg.',
+            'cnmPanelReport': 'Finding of C&M panel report',
+            'defectBrief': 'Defect brief',
+            'defectCategory': 'Defect category',
+            'reasonForUncoupling': 'Reason for uncoupling',
+            'responsibilityExamRohPoh': 'Responsibility Exam / ROH / POH',
+            'responsibilityStation': 'Responsibility station',
+            'responsibilityDivision': 'Responsibility division',
+            'responsibilityRailway': 'Responsibility Railway',
+            'responsibilityDepartment': 'Responsibility Department',
+            'icmsRemark': 'ICMS Remark',
+            'observation': 'Observation',
+            // Hidden fields
+            'uniqueId': 'Unique ID',
+            'rowIndex': 'rowIndex', // For internal use in Apps Script doPost
+            'pdfLink': 'PDF Link'
+        };
+
+        // Reverse map for populating form from sheet data
+        const reverseFieldMap = {};
+        for (const id in fieldMap) {
+            reverseFieldMap[fieldMap[id]] = id;
+        }
+
+        // Function to populate subType dropdown based on main Type selection
+        function populateSubTypeDropdown(typeElement, subTypeElement) {
+            const selectedType = typeElement.value;
+            subTypeElement.innerHTML = '<option value="">Select Sub Type</option>'; // Clear existing options
+            if (selectedType && subTypeOptions[selectedType]) {
+                subTypeOptions[selectedType].forEach(subType => {
+                    const option = document.createElement('option');
+                    option.value = subType;
+                    option.textContent = subType;
+                    subTypeElement.appendChild(option);
+                });
+            }
+        }
+
+        // Event listeners for Type -> Sub Type dropdowns
+        typeSelect.addEventListener('change', () => populateSubTypeDropdown(typeSelect, subTypeSelect));
+        editTypeSelect.addEventListener('change', () => populateSubTypeDropdown(editTypeSelect, editSubTypeSelect));
+
+        // --- Date Formatting Helper ---
+        function formatDateForDisplay(dateValue) {
+            if (!dateValue) return '';
+            
+            let date = new Date(dateValue);
+            // Check if date is valid. If it includes time and becomes invalid without it,
+            // or if it's just a pure date string (YYYY-MM-DD)
+            if (isNaN(date.getTime())) {
+                // Try parsing as YYYY-MM-DD
+                const parts = dateValue.split('-');
+                if (parts.length === 3) {
+                    date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                } else {
+                    return dateValue; // Return original if still can't parse
+                }
+            }
+            
+            // Format to DD-MM-YYYY
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+
+        // --- MAIN FORM SUBMISSION ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formSpinner.style.display = 'block'; // Show spinner
+            submitButton.disabled = true; // Disable submit button
+
+            const formData = new FormData(form);
+            const dataToSend = {};
+
+            // Map form field values to sheet column names
+            for (let [key, value] of formData.entries()) {
+                const sheetHeader = fieldMap[key] || key; // Use mapped header or original key
+                dataToSend[sheetHeader] = value;
+            }
+
+            try {
+                // Fetch request for data submission
+                const response = await fetch(APP_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Use 'no-cors' for Google Apps Script Web Apps initial request
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(dataToSend).toString()
+                });
+                
+                // Since 'no-cors' is used, we can't directly read the response here.
+                // We'll rely on the re-fetch to see the update.
+                alert('Data submitted successfully! The table will update shortly.');
+                form.reset(); // Clear the form
+                document.getElementById('uniqueId').value = ''; // Clear hidden Unique ID
+                document.getElementById('rowIndex').value = ''; // Clear hidden rowIndex
+                
+                // Set default dates again
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('date').value = today;
+                document.getElementById('bpcDate').value = today;
+                document.getElementById('rDate').value = today;
+                
+                // Re-fetch and display updated data to show the new entry immediately
+                await fetchAndDisplayData();
+
+            } catch (error) {
+                console.error('Error submitting data:', error);
+                alert('An error occurred while submitting data. Please try again.');
+            } finally {
+                formSpinner.style.display = 'none'; // Hide spinner
+                submitButton.disabled = false; // Re-enable submit button
+            }
+        });
+
+        // --- FETCH AND DISPLAY DATA ---
+        async function fetchAndDisplayData(startDate = null, endDate = null) {
+            searchSpinner.style.display = 'block'; // Show spinner
+            dataDisplayArea.innerHTML = ''; // Clear previous data
+
+            try {
+                let url = `${APP_SCRIPT_URL}?action=getData`;
+                if (startDate && endDate) {
+                    url += `&startDate=${startDate}&endDate=${endDate}`;
+                }
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    const headers = data.length > 0 ? data[0] : [];
+                    const actualDataRows = data.length > 1 ? data.slice(1) : [];
+
+                    // Reverse the array to show latest entries on top
+                    actualDataRows.reverse();
+
+                    let tableHTML = `
+                        <table id="dataDisplayTable">
+                            <thead>
+                                <tr>
+                    `;
+                    headers.forEach(header => {
+                        tableHTML += `<th>${header}</th>`;
+                    });
+                    // Add a column for Actions (Edit, Upload PDF, View PDF)
+                    tableHTML += `<th>Actions</th>`;
+                    tableHTML += `
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    actualDataRows.forEach((row, rowIndex) => { // rowIndex is 0-based here for reversed array
+                        // Store actual Google Sheet row index (0-based for headers, so data starts at index 1)
+                        // `data.length - 1 - rowIndex` converts reversed JS array index to original sheet index
+                        tableHTML += `<tr data-row-index="${data.length - 1 - rowIndex}">`; 
+                                                                                               
+                        row.forEach((cell, cellIndex) => {
+                            // Check if the header for this cell is a date field
+                            const header = headers[cellIndex];
+                            if (['Date', 'BPC Date', 'POH date', 'ROH date', 'R-date', 'Mfg. date of broken / Failed part'].includes(header)) {
+                                tableHTML += `<td>${formatDateForDisplay(cell)}</td>`; // Format date for display
+                            } else {
+                                tableHTML += `<td>${cell || ''}</td>`;
+                            }
+                        });
+                        
+                        // Add Action buttons/links
+                        const uniqueId = row[headers.indexOf('Unique ID')] || '';
+                        const pdfLink = row[headers.indexOf('PDF Link')] || '';
+
+                        tableHTML += `
+                            <td>
+                                <div class="action-buttons">
+                                    <button onclick="editRecord(this.closest('tr'))">Edit</button>
+                                    <div class="pdf-input-container">
+                                        <input type="file" class="pdf-file-input" data-unique-id="${uniqueId}" accept=".pdf" id="pdfFileInput_${uniqueId}">
+                                        <button onclick="uploadPdf(this)">Upload PDF</button>
+                                    </div>
+                        `;
+                        if (pdfLink) {
+                            tableHTML += `<a href="${pdfLink}" target="_blank" class="pdf-link">View PDF</a>`;
+                        }
+                        tableHTML += `
+                                </div>
+                            </td>
+                        </tr>`;
+                    });
+
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    dataDisplayArea.innerHTML = tableHTML;
+                } else {
+                    dataDisplayArea.innerHTML = '<p class="no-data">No data found for the selected criteria.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                dataDisplayArea.innerHTML = '<p class="no-data">Error loading data. Please check the console.</p>';
+            } finally {
+                searchSpinner.style.display = 'none'; // Hide spinner
+            }
+        }
+
+        // --- EDIT RECORD FUNCTION ---
+        let currentEditingRowData = null; // Store data of the row being edited
+        let currentEditingRowIndex = null; // Store the actual Google Sheet row index
+
+        async function editRecord(rowElement) {
+            const rowIndex = parseInt(rowElement.dataset.rowIndex); // Get the 0-based original Google Sheet row index
+            currentEditingRowIndex = rowIndex; // Store for later
+            editModal.style.display = 'flex'; // Show the modal
+
+            // Fetch current data to populate the form accurately
+            // This is safer than relying on table cell text, which might be truncated or formatted.
+            try {
+                const response = await fetch(`${APP_SCRIPT_URL}?action=getData`);
+                const allData = await response.json();
+                const headers = allData.length > 0 ? allData[0] : [];
+                const sheetDataRows = allData.length > 1 ? allData.slice(1) : [];
+
+                // Find the specific row data using the original sheet index
+                currentEditingRowData = sheetDataRows[rowIndex]; // rowIndex is 0-based for this array
+
+                if (!currentEditingRowData) {
+                    alert('Error: Could not find data for this row to edit.');
+                    editModal.style.display = 'none';
+                    return;
+                }
+
+                // Populate the edit form fields
+                document.getElementById('editUniqueId').value = currentEditingRowData[headers.indexOf('Unique ID')];
+                document.getElementById('editRowIndex').value = rowIndex; // Pass original sheet index for update
+
+                headers.forEach((header, index) => {
+                    // Convert header to camelCase to match HTML element IDs (e.g., 'Sr. No.' -> 'editSrNo')
+                    let idToFind = header.replace(/[^a-zA-Z0-9]/g, ''); // Remove special chars
+                    idToFind = idToFind.charAt(0).toLowerCase() + idToFind.slice(1); // camelCase
+                    idToFind = `edit${idToFind.charAt(0).toUpperCase() + idToFind.slice(1)}`; // Add 'edit' prefix and capitalize first letter
+
+                    const inputElement = document.getElementById(idToFind);
+                    
+                    if (inputElement) {
+                        let value = currentEditingRowData[index];
+                        // Format dates for date input fields
+                        if (inputElement.type === 'date' && value) {
+                            if (value instanceof Date) {
+                                value = value.toISOString().split('T')[0];
+                            } else {
+                                // Try to parse any date string into YYYY-MM-DD for date input
+                                try {
+                                    const dateObj = new Date(value);
+                                    if (!isNaN(dateObj.getTime())) {
+                                        value = dateObj.toISOString().split('T')[0];
+                                    }
+                                } catch (e) {
+                                    // Keep original value if parsing fails
+                                }
+                            }
+                        }
+                        inputElement.value = value || '';
+
+                        // Special handling for subType dropdown in edit form
+                        if (header === 'Type') {
+                            // First, set the main type
+                            inputElement.value = value || '';
+                            // Then, populate subType dropdown based on the selected main type
+                            populateSubTypeDropdown(editTypeSelect, editSubTypeSelect);
+                            // After populating, set the subType value
+                            const subTypeValue = currentEditingRowData[headers.indexOf('Sub Type')] || '';
+                            document.getElementById('editSubType').value = subTypeValue;
+                        }
+                    }
+                });
+
+                // Preserve existing PDF Link
+                document.getElementById('editPdfLink').value = currentEditingRowData[headers.indexOf('PDF Link')] || '';
+
+            } catch (error) {
+                console.error('Error fetching data for edit:', error);
+                alert('Could not load data for editing. Please try again.');
+                editModal.style.display = 'none';
+            }
+        }
+
+        // --- EDIT FORM SUBMISSION ---
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            editFormSpinner.style.display = 'block';
+            
+            const formData = new FormData(editForm);
+            const dataToSend = {};
+
+            // Map form field values to sheet column names for update
+            for (let [key, value] of formData.entries()) {
+                dataToSend[key] = value;
+            }
+
+            try {
+                const response = await fetch(APP_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Still no-cors
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(dataToSend).toString()
+                });
+
+                alert('Record updated successfully!');
+                editModal.style.display = 'none'; // Close modal
+                await fetchAndDisplayData(); // Refresh table
+            } catch (error) {
+                console.error('Error updating record:', error);
+                alert('An error occurred while updating the record. Please try again.');
+            } finally {
+                editFormSpinner.style.display = 'none';
+            }
+        });
+
+        // --- CLOSE MODAL ---
+        closeButton.addEventListener('click', () => {
+            editModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == editModal) {
+                editModal.style.display = 'none';
+            }
+        });
+
+        // --- UPLOAD PDF FUNCTION ---
+        async function uploadPdf(buttonElement) {
+            const inputContainer = buttonElement.closest('.pdf-input-container');
+            const fileInput = inputContainer.querySelector('.pdf-file-input');
+            const uniqueId = fileInput.dataset.uniqueId;
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a PDF file to upload.');
+                return;
+            }
+
+            if (!uniqueId) {
+                alert('Cannot upload PDF: Unique ID for this row is missing. Please try submitting the data first.');
+                return;
+            }
+
+            buttonElement.disabled = true;
+            buttonElement.textContent = 'Uploading...';
+            // Add a spinner next to the button if you want
+            // const spinner = document.createElement('div');
+            // spinner.className = 'spinner';
+            // buttonElement.parentNode.insertBefore(spinner, buttonElement.nextSibling);
+
+            const formData = new FormData();
+            formData.append('action', 'uploadFile'); 
+            formData.append('file', file);
+            formData.append('uniqueId', uniqueId); 
+
+            try {
+                const response = await fetch(APP_SCRIPT_URL, { 
+                    method: 'POST',
+                    body: formData,
+                    // 'no-cors' mode means we cannot read response.json()
+                    // But the request itself should still complete successfully.
+                    // The "network problem" is often a misleading error when the server doesn't
+                    // return a proper CORS-compliant response, even if the action happened.
+                    // We'll rely on the re-fetch to confirm.
+                });
+
+                // Even in 'no-cors', a successful network request *should* be enough to trigger the Apps Script.
+                // We assume success and refresh the data.
+                alert('PDF upload request sent. Refreshing table to check status...');
+                fileInput.value = ''; // Clear file input
+                await fetchAndDisplayData(); // Refresh the table to show the new PDF link (if successful)
+                
+            } catch (error) {
+                console.error('Error during PDF upload fetch:', error);
+                alert('An error occurred during PDF upload. Please check console for details.');
+            } finally {
+                buttonElement.disabled = false;
+                buttonElement.textContent = 'Upload PDF';
+                // Remove spinner
+                // if (spinner.parentNode) spinner.parentNode.removeChild(spinner);
+            }
+        }
+
+
+        // --- DOWNLOAD CSV FUNCTION ---
+        function downloadCSV() {
+            const table = document.getElementById('dataDisplayTable');
+            if (!table || table.rows.length <= 1) {
+                alert('No data to download.');
+                return;
+            }
+
+            let csv = [];
+            let headerRow = [];
+            // Exclude the 'Actions' column from CSV
+            table.querySelectorAll('thead th').forEach((th, index) => {
+                if (th.innerText !== 'Actions') {
+                    headerRow.push(`"${th.innerText.replace(/"/g, '""')}"`);
+                }
+            });
+            csv.push(headerRow.join(','));
+
+            table.querySelectorAll('tbody tr').forEach(row => {
+                let rowData = [];
+                row.querySelectorAll('td').forEach((td, index) => {
+                    // Assuming 'Actions' column is the last one
+                    if (index < row.querySelectorAll('td').length - 1) { // Exclude the last cell (Actions)
+                        let data = td.innerText.replace(/"/g, '""');
+                        rowData.push(`"${data}"`);
+                    }
+                });
+                csv.push(rowData.join(','));
+            });
+
+            const csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+            const downloadLink = document.createElement('a');
+            downloadLink.download = 'ICMS_Failure_Data.csv';
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+
+        // --- SEARCH DATA FUNCTION ---
+        function searchData() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            fetchAndDisplayData(startDate, endDate);
+        }
+
+        // --- INITIAL LOAD ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current date for default date fields
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            document.getElementById('bpcDate').value = today;
+            document.getElementById('rDate').value = today;
+            
+            fetchAndDisplayData();
+        });
+
+    </script>
+</body>
+</html>
