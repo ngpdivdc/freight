@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICMS Failure Data Entry</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #6dd5ed, #2193b0); /* Vibrant blue gradient */
+            color: #fff;
+            margin: 0;
+            padding: 15px; /* Increased padding slightly for more space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.95em; /* Slightly larger base font size for the body */
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Slightly larger shadow */
+            width: 98%; /* Increased width for more horizontal space */
+            max-width: 1500px; /* Increased max-width */
+            margin-bottom: 20px; /* Increased margin */
+            overflow-x: auto;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #e0f7fa;
+            margin-bottom: 15px; /* Increased margin */
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); /* Slightly larger text shadow */
+            font-size: 1.8em; /* Larger heading */
+        }
+
+        /* --- UPDATED FORM GRID STYLE for 2 lines --- */
+        .form-grid {
+            display: grid; /* Use grid for 2 columns */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Auto-fit to 250px min, allowing flexibility */
+            gap: 15px; /* Larger gap */
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 0; /* No specific margin needed with grid gap */
+        }
+        /* --- END UPDATED FORM GRID STYLE --- */
+
+        label {
+            display: block;
+            margin-bottom: 5px; /* More margin */
+            font-weight: bold;
+            color: #bbdefb;
+            font-size: 0.9em; /* Slightly larger label font size */
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px; /* Increased padding for input fields */
+            border: 1px solid #4fc3f7;
+            border-radius: 4px; /* Slightly larger border-radius */
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 0.9em; /* Slightly larger input font size */
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            height: 38px; /* Fixed height for consistent alignment */
+        }
+
+        textarea {
+            height: 60px; /* Adjusted height for textareas */
+            padding: 8px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: #b3e5fc;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #81d4fa;
+            background-color: rgba(255, 255, 255, 0.25);
+            outline: none;
+            box-shadow: 0 0 8px rgba(129, 212, 250, 0.6); /* Slightly larger shadow */
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        select option {
+            background-color: #0d47a1;
+            color: #fff;
+        }
+
+        button {
+            background-color: #00bcd4;
+            color: white;
+            padding: 10px 20px; /* Increased padding for buttons */
+            border: none;
+            border-radius: 5px; /* Slightly larger border-radius */
+            cursor: pointer;
+            font-size: 1em; /* Slightly larger button font size */
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 15px; /* Increased margin */
+            display: block;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #00acc1;
+            transform: translateY(-2px); /* Slightly larger transform */
+        }
+
+        /* --- UPDATED SEARCH SECTION STYLE for 1 line --- */
+        .search-section {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            width: 98%;
+            max-width: 1500px;
+            margin-bottom: 20px;
+            display: flex; /* Use flexbox */
+            flex-wrap: nowrap; /* Keep items on a single line */
+            gap: 15px; /* Larger gap */
+            align-items: flex-end; /* Align items to the bottom */
+            justify-content: center; /* Center content horizontally */
+            overflow-x: auto; /* Enable horizontal scroll if needed */
+        }
+
+        .search-section h2 {
+            white-space: nowrap; /* Prevent heading from wrapping */
+            margin-right: 20px; /* Add more space after heading */
+            flex-shrink: 0; /* Prevent it from shrinking */
+            font-size: 1.4em; /* Larger heading for search section */
+            margin-bottom: 0; /* Remove bottom margin */
+        }
+
+        .search-section .form-group {
+            margin-bottom: 0;
+            min-width: 180px; /* Adjusted min-width for search inputs */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .search-section button {
+            width: auto; /* Allow buttons to size based on content */
+            margin-top: 0; /* Remove top margin for better alignment */
+            padding: 10px 18px; /* Adjusted button padding */
+            font-size: 0.95em; /* Slightly larger button font size */
+        }
+        /* --- END UPDATED SEARCH SECTION STYLE --- */
+
+
+        .search-results-section {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            width: 98%;
+            max-width: 1500px;
+            margin-bottom: 20px; /* Add margin to separate from other sections */
+        }
+
+        #dataDisplayTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px; /* Increased margin */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.9em; /* Slightly larger table font size */
+        }
+
+        #dataDisplayTable th,
+        #dataDisplayTable td {
+            padding: 8px 10px; /* Increased padding for table cells */
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Slightly stronger border */
+            color: #e0f7fa;
+        }
+
+        #dataDisplayTable th {
+            background-color: rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+            color: #bbdefb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        #dataDisplayTable tr:hover {
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly stronger hover effect */
+        }
+
+        .no-data {
+            text-align: center;
+            color: #ffccbc;
+            padding: 15px;
+            font-size: 1em;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3); /* Slightly larger spinner */
+            border-top: 3px solid #fff;
+            width: 20px; /* Slightly larger spinner */
+            height: 20px; /* Slightly larger spinner */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr; /* On very small screens, revert to single column for form */
+            }
+            .search-section {
+                flex-wrap: wrap; /* Allow search section to wrap on small screens */
+                justify-content: flex-start;
+            }
+            .search-section h2 {
+                width: 100%; /* Full width for heading on small screens */
+                text-align: center;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .search-section button {
+                width: 100%; /* Full width buttons on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ICMS Failure Data Entry Form</h1>
+        <form id="icmsForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="srNo">Sr. No.</label>
+                    <input type="number" id="srNo" name="Sr. No." required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="Date" required>
+                </div>
+                <div class="form-group">
+                    <label for="icmsFailureId">ICMS Failure Id</label>
+                    <input type="text" id="icmsFailureId" name="ICMS Failure Id">
+                </div>
+                <div class="form-group">
+                    <label for="trainNo">Train No.</label>
+                    <input type="text" id="trainNo" name="Train No.">
+                </div>
+                <div class="form-group">
+                    <label for="locoNo">Loco No.</label>
+                    <input type="text" id="locoNo" name="Loco No.">
+                </div>
+                <div class="form-group">
+                    <label for="mainSection">Main Section</label>
+                    <select id="mainSection" name="Main Section" required>
+                        <option value="">Select Main Section</option>
+                        <option value="NGP-WR">NGP-WR</option>
+                        <option value="NGP-AMF">NGP-AMF</option>
+                        <option value="WR-BD">WR-BD</option>
+                        <option value="WR-BPQ">WR-BPQ</option>
+                        <option value="AMF-ET">AMF-ET</option>
+                        <option value="AMF-CWA">AMF-CWA</option>
+                        <option value="NRKR-CNDB">NRKR-CNDB</option>
+                        <option value="BTBR-URR">BTBR-URR</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="blockSection">Block Section</label>
+                    <input type="text" id="blockSection" name="Block Section">
+                </div>
+                <div class="form-group">
+                    <label for="kms">KMS</label>
+                    <input type="text" id="kms" name="KMS">
+                </div>
+                <div class="form-group">
+                    <label for="gradient">Gradient Up / Dn</label>
+                    <select id="gradient" name="Gradient Up / Dn">
+                        <option value="">Select Gradient</option>
+                        <option value="Straight">Straight</option>
+                        <option value="Up/Rising">Up/Rising</option>
+                        <option value="Dn/Falling">Dn/Falling</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="signalAspect">Signal Aspect</label>
+                    <select id="signalAspect" name="Signal Aspect">
+                        <option value="">Select Signal Aspect</option>
+                        <option value="Distant Yellow">Distant Yellow</option>
+                        <option value="Through">Through</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="locoPilotName">Loco Pilot Name</label>
+                    <input type="text" id="locoPilotName" name="Loco Pilot Name">
+                </div>
+                <div class="form-group">
+                    <label for="locoPilotCategory">Loco Pilot Category</label>
+                    <input type="text" id="locoPilotCategory" name="Loco Pilot Category">
+                </div>
+                <div class="form-group">
+                    <label for="nominatedLI">Nominated LI</label>
+                    <input type="text" id="nominatedLI" name="Nominated LI">
+                </div>
+                <div class="form-group">
+                    <label for="bpcNo">BPC No.</label>
+                    <input type="text" id="bpcNo" name="BPC No.">
+                </div>
+                <div class="form-group">
+                    <label for="bpcStation">BPC Station</label>
+                    <input type="text" id="bpcStation" name="BPC Station">
+                </div>
+                <div class="form-group">
+                    <label for="bpcRailway">BPC Railway</label>
+                    <input type="text" id="bpcRailway" name="BPC Railway">
+                </div>
+                <div class="form-group">
+                    <label for="examType">Exam. Type</label>
+                    <select id="examType" name="Exam. Type" required>
+                        <option value="">Select Exam Type</option>
+                        <option value="CC">CC</option>
+                        <option value="Premium">Premium</option>
+                        <option value="E to E">E to E</option>
+                        <option value="GDR">GDR</option>
+                        <option value="Departmental">Departmental</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bpcDate">BPC Date</label>
+                    <input type="date" id="bpcDate" name="BPC Date">
+                </div>
+                <div class="form-group">
+                    <label for="wagonOwner">Wagon Owner</label>
+                    <input type="text" id="wagonOwner" name="Wagon Owner">
+                </div>
+                <div class="form-group">
+                    <label for="wagonNo">Wagon No.</label>
+                    <input type="text" id="wagonNo" name="Wagon No.">
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" name="Type" required>
+                        <option value="">Select Type</option>
+                        <option value="BOXN">BOXN</option>
+                        <option value="BCN">BCN</option>
+                        <option value="BLC">BLC</option>
+                        <option value="BRN">BRN</option>
+                        <option value="BTPN">BTPN</option>
+                        <option value="BOBYN">BOBYN</option>
+                        <option value="BOBRN">BOBRN</option>
+                        <option value="Well wagon">Well wagon</option>
+                        <option value="Brake van">Brake van</option>
+                        <option value="BOST">BOST</option>
+                        <option value="NMG/VPH">NMG/VPH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subType">Sub Type</label>
+                    <select id="subType" name="Sub Type">
+                        <option value="">Select Sub Type</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="loadedEmpty">Loaded / Empty</label>
+                    <select id="loadedEmpty" name="Loaded / Empty">
+                        <option value="">Select Status</option>
+                        <option value="Loaded">Loaded</option>
+                        <option value="Empty">Empty</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pohWorkshop">POH Workshop</label>
+                    <input type="text" id="pohWorkshop" name="POH workshop">
+                </div>
+                <div class="form-group">
+                    <label for="pohDate">POH Date</label>
+                    <input type="date" id="pohDate" name="POH date">
+                </div>
+                <div class="form-group">
+                    <label for="monthsAfterPOH">Months after POH</label>
+                    <input type="number" id="monthsAfterPOH" name="Months after POH">
+                </div>
+                <div class="form-group">
+                    <label for="rohDepot">ROH Depot</label>
+                    <input type="text" id="rohDepot" name="ROH depot">
+                </div>
+                <div class="form-group">
+                    <label for="rohDate">ROH Date</label>
+                    <input type="date" id="rohDate" name="ROH date">
+                </div>
+                <div class="form-group">
+                    <label for="monthsAfterROH">Months after ROH</label>
+                    <input type="number" id="monthsAfterROH" name="Months after ROH">
+                </div>
+                <div class="form-group">
+                    <label for="rDate">R-date</label>
+                    <input type="date" id="rDate" name="R-date">
+                </div>
+                <div class="form-group">
+                    <label for="partBrokenFailed">Part broken / Failed</label>
+                    <input type="text" id="partBrokenFailed" name="Part broken / Failed">
+                </div>
+                <div class="form-group">
+                    <label for="makeOfPart">Make of broken / Failed part</label>
+                    <input type="text" id="makeOfPart" name="Make of broken / Failed part">
+                </div>
+                <div class="form-group">
+                    <label for="mfgDateOfPart">Mfg. date of broken / Failed part</label>
+                    <input type="date" id="mfgDateOfPart" name="Mfg. date of broken / Failed part">
+                </div>
+                <div class="form-group">
+                    <label for="monthsAfterMfg">Months after Mfg.</label>
+                    <input type="number" id="monthsAfterMfg" name="Months after Mfg.">
+                </div>
+                <div class="form-group">
+                    <label for="cnmPanelReport">Finding of C&M panel report</label>
+                    <textarea id="cnmPanelReport" name="Finding of C&M panel report" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="defectBrief">Defect brief</label>
+                    <textarea id="defectBrief" name="Defect brief" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="defectCategory">Defect Category</label>
+                    <select id="defectCategory" name="Defect category">
+                        <option value="">Select Defect Category</option>
+                        <option value="TPG">TPG</option>
+                        <option value="TUG">TUG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reasonForUncoupling">Reason for uncoupling</label>
+                    <select id="reasonForUncoupling" name="Reason for uncoupling">
+                        <option value="">Select Reason</option>
+                        <option value="Knuckle broken">Knuckle broken</option>
+                        <option value="Lock piece worn out">Lock piece worn out</option>
+                        <option value="Yoke support pin broken">Yoke support pin broken</option>
+                        <option value="Yoke support pin fallen">Yoke support pin fallen</option>
+                        <option value="Anti creep worn out">Anti creep worn out</option>
+                        <option value="Knuckle pin missing">Knuckle pin missing</option>
+                        <option value="ARL missing/worn out">ARL missing/worn out</option>
+                        <option value="Operating handle broken/bent">Operating handle broken/bent</option>
+                        <option value="Bearing piece worn out/missing">Bearing piece worn out/missing</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityExamRohPoh">Responsibility Exam / ROH / POH</label>
+                    <select id="responsibilityExamRohPoh" name="Responsibility Exam / ROH / POH">
+                        <option value="">Select Responsibility</option>
+                        <option value="ROH">ROH</option>
+                        <option value="POH">POH</option>
+                        <option value="Last examination point">Last examination point</option>
+                        <option value="GDR">GDR</option>
+                        <option value="Pointsman">Pointsman</option>
+                        <option value="TRO">TRO</option>
+                        <option value="Unknown">Unknown</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityStation">Responsibility station</label>
+                    <input type="text" id="responsibilityStation" name="Responsibility station">
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityDivision">Responsibility division</label>
+                    <input type="text" id="responsibilityDivision" name="Responsibility division">
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityRailway">Responsibility Railway</label>
+                    <input type="text" id="responsibilityRailway" name="Responsibility Railway">
+                </div>
+                <div class="form-group">
+                    <label for="responsibilityDepartment">Responsibility Department</label>
+                    <select id="responsibilityDepartment" name="Responsibility Department">
+                        <option value="">Select Department</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Operating">Operating</option>
+                        <option value="Operating + TRO">Operating + TRO</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="TRO">TRO</option>
+                        <option value="Other">Other</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="icmsRemark">ICMS Remark</label>
+                    <textarea id="icmsRemark" name="ICMS Remark" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="observation">Observation</label>
+                    <textarea id="observation" name="Observation" rows="2"></textarea>
+                </div>
+            </div>
+            <button type="submit">Submit Data</button>
+            <div class="spinner" id="formSpinner"></div>
+        </form>
+    </div>
+
+    <div class="search-section">
+        <h2>Search Records</h2>
+        <div class="form-group">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+        </div>
+        <div class="form-group">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+        </div>
+        <button onclick="searchData()">Search</button>
+        <button onclick="downloadCSV()">Download CSV</button>
+        <div class="spinner" id="searchSpinner"></div>
+    </div>
+
+    <div class="search-results-section">
+        <h2>Submitted Data (Latest First)</h2>
+        <div id="dataDisplayArea">
+            <p class="no-data">No data to display yet. Submit a record or search for existing ones.</p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('icmsForm');
+        const typeSelect = document.getElementById('type');
+        const subTypeSelect = document.getElementById('subType');
+        const formSpinner = document.getElementById('formSpinner');
+        const searchSpinner = document.getElementById('searchSpinner');
+        const dataDisplayArea = document.getElementById('dataDisplayArea');
+
+        // IMPORTANT: Replace with your deployed Google Apps Script Web App URL
+        const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyltRKnukptNglJTyCa_Ez4OSyoa70UXLlSr6g_pOQum5L_ARt7Fmp1IzcqOyqQ8SaInw/exec'; 
+
+        const subTypeOptions = {
+            "BOXN": ["BOXN", "BOXNHA", "BOXNHS", "BOXNLW", "BOXNAL", "BOXNHL", "BOXNS"],
+            "BCN": ["BCNA", "BCNAHS", "BCCNR", "BCNHL"],
+            "BLC": ["BLCA", "BLCB", "BLCAM", "BLCBM", "BLCSA", "BLCSB", "BLLA", "BLLB"],
+            "BRN": ["BRNA", "BRNAHS", "BFNS", "BOMN", "BRSTH", "BFAT", "BFU", "BRHNEHS"],
+            "BTPN": ["BTPN", "BTPNHS", "BTPGLN", "BTALN", "BTCS", "BTAP", "BTFLN"],
+            "BOBYN": ["BOBYN", "BOBYNHS", "BOBRN", "BOBRNHS", "BOBSN"],
+            "BOBRN": ["BOBYN", "BOBYNHS", "BOBRN", "BOBRNHS", "BOBSN"], // Duplicated BOBYN content, review if this is intentional
+            "Well wagon": ["BWTB", "MBWT", "DBKM", "MBWZ"],
+            "Brake van": ["BVZI", "BVZC", "BVCM"],
+            "BOST": ["BOST", "BOSTHS"],
+            "NMG/VPH": ["NMG/VPH"] // Assuming NMG/VPH has no sub-types or is just itself
+        };
+
+        typeSelect.addEventListener('change', () => {
+            const selectedType = typeSelect.value;
+            subTypeSelect.innerHTML = '<option value="">Select Sub Type</option>'; // Clear existing options
+            if (selectedType && subTypeOptions[selectedType]) {
+                subTypeOptions[selectedType].forEach(subType => {
+                    const option = document.createElement('option');
+                    option.value = subType;
+                    option.textContent = subType;
+                    subTypeSelect.appendChild(option);
+                });
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formSpinner.style.display = 'block'; // Show spinner
+            const formData = new FormData(form);
+            const data = {};
+            // Correctly map form field names to expected Google Sheet column headers
+            // This is crucial if your form 'name' attributes don't exactly match your sheet headers
+            const fieldMap = {
+                'srNo': 'Sr. No.',
+                'date': 'Date',
+                'icmsFailureId': 'ICMS Failure Id',
+                'trainNo': 'Train No.',
+                'locoNo': 'Loco No.',
+                'mainSection': 'Main Section',
+                'blockSection': 'Block Section',
+                'kms': 'KMS',
+                'gradient': 'Gradient Up / Dn',
+                'signalAspect': 'Signal Aspect',
+                'locoPilotName': 'Loco Pilot Name',
+                'locoPilotCategory': 'Loco Pilot Category',
+                'nominatedLI': 'Nominated LI',
+                'bpcNo': 'BPC No.',
+                'bpcStation': 'BPC Station',
+                'bpcRailway': 'BPC Railway',
+                'examType': 'Exam. Type',
+                'bpcDate': 'BPC Date',
+                'wagonOwner': 'Wagon Owner',
+                'wagonNo': 'Wagon No.',
+                'type': 'Type',
+                'subType': 'Sub Type',
+                'loadedEmpty': 'Loaded / Empty',
+                'pohWorkshop': 'POH workshop',
+                'pohDate': 'POH date',
+                'monthsAfterPOH': 'Months after POH',
+                'rohDepot': 'ROH depot',
+                'rohDate': 'ROH date',
+                'monthsAfterROH': 'Months after ROH',
+                'rDate': 'R-date',
+                'partBrokenFailed': 'Part broken / Failed',
+                'makeOfPart': 'Make of broken / Failed part',
+                'mfgDateOfPart': 'Mfg. date of broken / Failed part',
+                'monthsAfterMfg': 'Months after Mfg.',
+                'cnmPanelReport': 'Finding of C&M panel report',
+                'defectBrief': 'Defect brief',
+                'defectCategory': 'Defect category',
+                'reasonForUncoupling': 'Reason for uncoupling',
+                'responsibilityExamRohPoh': 'Responsibility Exam / ROH / POH',
+                'responsibilityStation': 'Responsibility station',
+                'responsibilityDivision': 'Responsibility division',
+                'responsibilityRailway': 'Responsibility Railway',
+                'responsibilityDepartment': 'Responsibility Department',
+                'icmsRemark': 'ICMS Remark',
+                'observation': 'Observation'
+            };
+
+            const dataToSend = {};
+            for (let [key, value] of formData.entries()) {
+                // Use the mapped key, if it exists, otherwise use the original key.
+                // This ensures that the 'name' attribute from the form matches the column header in the sheet.
+                dataToSend[fieldMap[key] || key] = value;
+            }
+
+
+            try {
+                const response = await fetch(GOOGLE_SHEET_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Use 'no-cors' for Google Apps Script Web Apps
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(dataToSend).toString() // Send the mapped data
+                });
+                
+                alert('Data submitted successfully! The table will update shortly.');
+                form.reset(); // Clear the form
+                // After submission, fetch and display updated data to show the new entry immediately
+                await fetchAndDisplayData(); // <--- This line makes it update immediately
+
+            } catch (error) {
+                console.error('Error submitting data:', error);
+                alert('An error occurred while submitting data. Please try again.');
+            } finally {
+                formSpinner.style.display = 'none'; // Hide spinner
+            }
+        });
+
+        async function fetchAndDisplayData(startDate = null, endDate = null) {
+            searchSpinner.style.display = 'block'; // Show spinner
+            dataDisplayArea.innerHTML = ''; // Clear previous data
+
+            try {
+                let url = `${GOOGLE_SHEET_WEB_APP_URL}?action=getData`;
+                if (startDate && endDate) {
+                    url += `&startDate=${startDate}&endDate=${endDate}`;
+                }
+                const response = await fetch(url);
+                const data = await response.json(); // Assuming your Apps Script returns JSON
+
+                if (data && data.length > 0) {
+                    const headers = data.length > 0 ? data[0] : [];
+                    const actualDataRows = data.length > 1 ? data.slice(1) : [];
+
+                    // Define the indices of the date columns based on your headers
+                    const dateColumnIndices = [];
+                    headers.forEach((header, index) => {
+                        if (['Date', 'BPC Date', 'POH date', 'ROH date', 'R-date', 'Mfg. date of broken / Failed part'].includes(header)) {
+                            dateColumnIndices.push(index);
+                        }
+                    });
+
+                    // Reverse the array to show latest entries on top (which means bottom of the table)
+                    actualDataRows.reverse();
+
+                    let tableHTML = `
+                        <table id="dataDisplayTable">
+                            <thead>
+                                <tr>
+                    `;
+                    headers.forEach(header => {
+                        tableHTML += `<th>${header}</th>`;
+                    });
+                    tableHTML += `
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    actualDataRows.forEach(row => {
+                        tableHTML += `<tr>`;
+                        row.forEach((cell, cellIndex) => {
+                            let displayValue = cell || '';
+                            // If the current cell is a date column, format it
+                            if (dateColumnIndices.includes(cellIndex) && displayValue) {
+                                try {
+                                    // Attempt to parse the date and format it
+                                    const dateObj = new Date(displayValue);
+                                    if (!isNaN(dateObj.getTime())) { // Check if it's a valid date
+                                        displayValue = dateObj.toLocaleDateString('en-CA', { // 'en-CA' typically gives YYYY-MM-DD
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit'
+                                        });
+                                    }
+                                } catch (e) {
+                                    console.warn(`Could not parse date for cell at index ${cellIndex}: ${displayValue}`);
+                                    // If parsing fails, keep original value
+                                }
+                            }
+                            tableHTML += `<td>${displayValue}</td>`;
+                        });
+                        tableHTML += `</tr>`;
+                    });
+
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    dataDisplayArea.innerHTML = tableHTML;
+                } else {
+                    dataDisplayArea.innerHTML = '<p class="no-data">No data found for the selected criteria.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                dataDisplayArea.innerHTML = '<p class="no-data">Error loading data. Please check the console.</p>';
+            } finally {
+                searchSpinner.style.display = 'none'; // Hide spinner
+            }
+        }
+
+        function downloadCSV() {
+            const table = document.getElementById('dataDisplayTable');
+            if (!table || table.rows.length <= 1) { // Check if table exists and has data (excluding header)
+                alert('No data to download.');
+                return;
+            }
+
+            let csv = [];
+            // Get headers
+            let headerRow = [];
+            table.querySelectorAll('thead th').forEach(th => headerRow.push(`"${th.innerText.replace(/"/g, '""')}"`));
+            csv.push(headerRow.join(','));
+
+            // Get data rows
+            table.querySelectorAll('tbody tr').forEach(row => {
+                let rowData = [];
+                row.querySelectorAll('td').forEach(td => {
+                    let data = td.innerText.replace(/"/g, '""'); // Escape double quotes
+                    rowData.push(`"${data}"`);
+                });
+                csv.push(rowData.join(','));
+            });
+
+            const csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+            const downloadLink = document.createElement('a');
+            downloadLink.download = 'ICMS_Failure_Data.csv';
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+
+        // Search Data function for the button
+        function searchData() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            fetchAndDisplayData(startDate, endDate);
+        }
+
+        // Fetch and display data when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current date for BPC Date and R-date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            document.getElementById('bpcDate').value = today;
+            document.getElementById('rDate').value = today;
+            
+            fetchAndDisplayData();
+        });
+
+    </script>
+</body>
+</html>

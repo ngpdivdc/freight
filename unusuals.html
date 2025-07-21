@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  <link rel="stylesheet" href="./unusualstyle.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unusaul Dashboard</title>
+  <link rel="stylesheet" href="unusual-styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <h1 class="page-title">Nagpur Division Monitoring Dashboard</h1>
+
+  <div class="card-container">
+
+    <!-- Card Template: Repeat for Each Case Type -->
+    <div class="info-card">
+      <h2>Hot Axle</h2>
+      <div class="card-metric" data-target="12">0</div>
+      <div class="button-group">
+        <a href="#" class="btn btn-blue"><i class="fas fa-chart-line"></i> View Analysis</a>
+        <a href="#" class="btn btn-green"><i class="fas fa-list"></i> All Cases</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2>Train Parting</h2>
+      <div class="card-metric" data-target="8">0</div>
+      <div class="button-group">
+        <a href="https://lookerstudio.google.com/embed/reporting/1770c926-5f40-4ccf-8c98-b747343d530c/page/ieAPF" class="btn btn-blue"><i class="fas fa-chart-line"></i> View Analysis</a>
+        <a href="tpcases.html" class="btn btn-green"><i class="fas fa-list"></i> All Cases</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2>Brake Binding</h2>
+      <div class="card-metric" data-target="5">0</div>
+      <div class="button-group">
+        <a href="#" class="btn btn-blue"><i class="fas fa-chart-line"></i> View Analysis</a>
+        <a href="#" class="btn btn-green"><i class="fas fa-list"></i> All Cases</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2>Flat Tyre</h2>
+      <div class="card-metric" data-target="3">0</div>
+      <div class="button-group">
+        <a href="#" class="btn btn-blue"><i class="fas fa-chart-line"></i> View Analysis</a>
+        <a href="#" class="btn btn-green"><i class="fas fa-list"></i> All Cases</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2>Body Bulge</h2>
+      <div class="card-metric" data-target="2">0</div>
+      <div class="button-group">
+        <a href="#" class="btn btn-blue"><i class="fas fa-chart-line"></i> View Analysis</a>
+        <a href="#" class="btn btn-green"><i class="fas fa-list"></i> All Cases</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2>Other Detentions</h2>
+      <div class="card-metric" data-target="9">0</div>
+      <div class="button-group">
+        <a href="#" class="btn btn-blue"><i class="fas fa-chart-line"></i> View Analysis</a>
+        <a href="#" class="btn btn-green"><i class="fas fa-list"></i> All Cases</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Counter Animation
+    const counters = document.querySelectorAll(".card-metric");
+    counters.forEach(counter => {
+      counter.innerText = "0";
+      const updateCount = () => {
+        const target = +counter.getAttribute("data-target");
+        const current = +counter.innerText;
+        const increment = Math.ceil(target / 60); // adjust speed
+
+        if (current < target) {
+          counter.innerText = `${current + increment}`;
+          setTimeout(updateCount, 20);
+        } else {
+          counter.innerText = target;
+        }
+      };
+      updateCount();
+    });
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
